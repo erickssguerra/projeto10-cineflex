@@ -1,14 +1,16 @@
 import styled from "styled-components"
 import movie from "../assets/images/movie-example.png"
 
-export default function Footer() {
+export default function Footer(props) {
+
+    const { imagem, titulo, horario } = props
 
     return (
         <FooterStyled>
-            <FooterContainer><div><img src={movie} alt="filme" /></div>
+            <FooterContainer><div><img src={imagem} alt="filme" /></div>
                 <MovieDetailsStyled>
-                    <h1>Enola Holmes</h1>
-                    <h1>Quinta-feira - 15:00</h1>
+                    <h1>{titulo}</h1>
+                    <h1>{horario}</h1>
                 </MovieDetailsStyled>
             </FooterContainer>
         </FooterStyled>
@@ -34,7 +36,7 @@ const FooterStyled = styled.div`
 `
 const MovieDetailsStyled = styled.nav`
 
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: #293845;
     line-height: 19px;
@@ -46,11 +48,11 @@ const FooterContainer = styled.div`
     margin: 0 auto;
     display: flex;
     align-items: center;
+    max-width: 100%;
     width: 375px;
    
     div {
         background-color: white;
-        margin-left: 10px;
         width: 58px;
         height: 83px;
         display: flex;

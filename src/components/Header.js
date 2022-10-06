@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Header() {
     return (
         <HeaderStyled>
-            <h1>CINEFLEX</h1>
+            <Link to="/">
+                <h1>CINEFLEX</h1>
+            </Link>
         </HeaderStyled>
     )
 }
@@ -25,6 +28,8 @@ const HeaderStyled = styled.div`
     z-index: 1;
    
    h1 {
-       text-shadow: 1px 3px 0 hsl(200 50% 30%);   
+       text-shadow: 1px 3px 0 hsl(200 50% 30%);
+       color: #E8833A;
+       text-decoration: none;
    }
 `

@@ -21,9 +21,8 @@ export default function MovieScreen() {
     }, []);
 
     if (items.length === 0 || items === undefined || items === null) {
-        return (<MovieScreenStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="carregando..." /></MovieScreenStyled>)
+        return (<MovieScreenStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." /></MovieScreenStyled>)
     }
-
 
     return (
         <MovieScreenStyled>
@@ -31,7 +30,7 @@ export default function MovieScreen() {
             <ul>
                 {items.map((item) => < MovieCard
                     key={item.id}
-                    id={item.id}
+                    idFilme={item.id}
                     imagem={item.posterURL}
                     titulo={item.title}
                 />)}
@@ -74,8 +73,11 @@ const MovieScreenStyled = styled.div`
         justify-content: center;
         align-items: center;
         border-radius: 3px;
-
         
+        &:hover {
+            transition: all .5s;
+            background-color:#C3CFD9 ;
+        }
     }
 
     img {
@@ -83,10 +85,8 @@ const MovieScreenStyled = styled.div`
       border-radius: 3px;
 
       &:hover {
-            transition: all .2s;
-            width: 145px;
-            height: 209px;
-            filter: brightness(.5)
+            transition: all .5s;
+            filter: brightness(1.2)
         }
     }
 

@@ -18,9 +18,9 @@ export default function SeatsScreen() {
             </ContainerLegenda>
             <ContainerComprador>
                 <p>Nome do comprador:</p>
-                <input placeholder="  Digite seu nome..." />
+                <input placeholder="Digite seu nome..." />
                 <p>CPF do comprador:</p>
-                <input placeholder="  Digite seu nome..." />
+                <input placeholder="Digite seu nome..." />
             </ContainerComprador>
             <BotaoAmarelo>Reservar Assento(s)</BotaoAmarelo>
         </SeatsScreenStyled>
@@ -136,7 +136,7 @@ input {
     border: 1px solid #D4D4D4 ;
     margin-bottom: 15px; 
     height: 40px;
-    width: 330px;
+    width: 90%;
 
     &::placeholder {
         font-style: italic;
