@@ -5,11 +5,12 @@ export default function Footer() {
 
     return (
         <FooterStyled>
-            <div><img src={movie} alt="filme" /></div>
-            <MovieDetailsStyled>
-                <h1>Enola Holmes</h1>
-                <h1>Quinta-feira - 15:00</h1>
-            </MovieDetailsStyled>
+            <FooterContainer><div><img src={movie} alt="filme" /></div>
+                <MovieDetailsStyled>
+                    <h1>Enola Holmes</h1>
+                    <h1>Quinta-feira - 15:00</h1>
+                </MovieDetailsStyled>
+            </FooterContainer>
         </FooterStyled>
     )
 }
@@ -22,7 +23,6 @@ const FooterStyled = styled.div`
     right: 0;
     left: 0;
     background-color: #C3CFD9;
-    min-width: 375px;
     width: 100%;
     height: 100px;
     align-items: center;
@@ -31,6 +31,23 @@ const FooterStyled = styled.div`
     color: #E8833A;
     box-shadow: 0px 2px 5px gray; 
 
+`
+const MovieDetailsStyled = styled.nav`
+
+    font-size: 16px;
+    font-weight: 700;
+    color: #293845;
+    line-height: 19px;
+    margin-left: 10px;
+
+`
+const FooterContainer = styled.div`
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    width: 375px;
+   
     div {
         background-color: white;
         margin-left: 10px;
@@ -45,14 +62,4 @@ const FooterStyled = styled.div`
     img {
         width: 48px;
     }
-
-`
-const MovieDetailsStyled = styled.nav`
-
-    font-size: 16px;
-    font-weight: 700;
-    color: #293845;
-    line-height: 19px;
-    margin-left: 10px;
-
 `

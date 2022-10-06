@@ -1,21 +1,40 @@
-import movie from "../assets/images/movie-example.png"
 import styled from "styled-components"
+import MovieCard from "./MovieCard"
+import { useState, useEffect } from "react"
+import axios from "axios"
 
 
 export default function MovieScreen() {
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
+
+        promise.then((resposta) => {
+            setItems(resposta.data)
+        })
+
+        promise.catch(erro => {
+            console.log(erro.response.data);
+        })
+
+    }, []);
+
+    if (items.length === 0 || items === undefined || items === null) {
+        return (<MovieScreenStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="carregando..." /></MovieScreenStyled>)
+    }
+
 
     return (
         <MovieScreenStyled>
             <h1>Selecione o filme</h1>
             <ul>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
-                <li><img src={movie} alt="filme" /></li>
+                {items.map((item) => < MovieCard
+                    key={item.id}
+                    id={item.id}
+                    imagem={item.posterURL}
+                    titulo={item.title}
+                />)}
             </ul>
         </MovieScreenStyled>
     )
@@ -24,7 +43,7 @@ export default function MovieScreen() {
 const MovieScreenStyled = styled.div`
     
     padding-top: 80px;
-    padding-bottom: 110px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,10 +74,20 @@ const MovieScreenStyled = styled.div`
         justify-content: center;
         align-items: center;
         border-radius: 3px;
+
+        
     }
 
     img {
       width: 129px;
+      border-radius: 3px;
+
+      &:hover {
+            transition: all .2s;
+            width: 145px;
+            height: 209px;
+            filter: brightness(.5)
+        }
     }
 
 `

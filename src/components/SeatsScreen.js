@@ -1,62 +1,15 @@
 import styled from "styled-components"
+import Footer from "./Footer"
 
 export default function SeatsScreen() {
 
     return (
-        <SeatsScreenStyled>
+        <> <SeatsScreenStyled>
             <h1>Selecione o(s) assento(s)</h1>
             <ContainerAssentos>
                 <AssentoLivre>01</AssentoLivre>
                 <AssentoSelecionado>02</AssentoSelecionado>
                 <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
-                <AssentoLivre>01</AssentoLivre>
-
             </ContainerAssentos>
             <ContainerLegenda>
                 <div><AssentoLivre /><p>Disponível</p></div>
@@ -71,6 +24,8 @@ export default function SeatsScreen() {
             </ContainerComprador>
             <BotaoAmarelo>Reservar Assento(s)</BotaoAmarelo>
         </SeatsScreenStyled>
+            <Footer />
+        </>
     )
 }
 

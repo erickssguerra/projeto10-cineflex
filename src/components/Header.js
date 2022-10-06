@@ -22,6 +22,7 @@ const HeaderStyled = styled.div`
     font-size: 34px;
     color: #E8833A;
     box-shadow: 0px 2px 5px gray;
+    z-index: 1;
    
    h1 {
        text-shadow: 1px 3px 0 hsl(200 50% 30%);   

@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"
 import styled from "styled-components"
+import Footer from "./Footer"
+import axios from "axios";
+
 
 
 export default function SessionsScreen() {
+    const { idFilme } = useParams();
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        const promise = axios.get(
+            `https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`);
+
+        promise.then((resposta) => {
+            setItems(resposta.data)
+        })
+
+        promise.catch(erro => {
+            console.log(erro.response.data);
+        })
+
+    }, [idFilme]);
+
+    if (items.length === 0 || items === undefined || items === null) {
+        return (<SessionsScreenStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="carregando..." /></SessionsScreenStyled>)
+    }
+
     return (
-        <SessionsScreenStyled>
+        <><SessionsScreenStyled>
             <h1>Selecione o horário</h1>
             <SessionsDetails />
             <SessionsDetails />
@@ -12,8 +38,9 @@ export default function SessionsScreen() {
             <SessionsDetails />
             <SessionsDetails />
             <SessionsDetails />
-            <SessionsDetails />
         </SessionsScreenStyled>
+            <Footer />
+        </>
     )
 }
 
