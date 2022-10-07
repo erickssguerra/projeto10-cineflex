@@ -1,15 +1,47 @@
-import styled from "styled-components"
-import Footer from "./Footer"
+import styled from "styled-components";
+import Footer from "./Footer";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 
 export default function SeatsScreen() {
+    const { idSessao } = useParams();
+    const [items, setItems] = useState([]);
 
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
+
+        promise.then((resposta) => {
+            setItems(resposta.data)
+        })
+
+        promise.catch(erro => {
+            console.log(erro.response.data);
+        })
+
+    }, [idSessao]);
+
+    if (items.length === 0 || items === undefined || items === null) {
+        return (
+            <SeatsScreenStyled>
+                <img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." />
+            </SeatsScreenStyled>
+        )
+    }
+
+    console.log(items)
     return (
         <> <SeatsScreenStyled>
             <h1>Selecione o(s) assento(s)</h1>
             <ContainerAssentos>
-                <AssentoLivre>01</AssentoLivre>
-                <AssentoSelecionado>02</AssentoSelecionado>
-                <AssentoOcupado>03</AssentoOcupado>
+                {items.seats.map((seat) =>
+                    seat.isAvailable ?
+                        <AssentoLivre>{seat.name}</AssentoLivre>
+                        :
+                        <AssentoOcupado>{seat.name}</AssentoOcupado>
+                )}
             </ContainerAssentos>
             <ContainerLegenda>
                 <div><AssentoLivre /><p>Disponível</p></div>
@@ -24,7 +56,8 @@ export default function SeatsScreen() {
             </ContainerComprador>
             <BotaoAmarelo>Reservar Assento(s)</BotaoAmarelo>
         </SeatsScreenStyled>
-            <Footer />
+            <Footer titulo={items.movie.title} imagem={items.movie.posterURL} horario={items.name} />
+
         </>
     )
 }

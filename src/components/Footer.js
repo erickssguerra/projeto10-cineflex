@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import movie from "../assets/images/movie-example.png"
 
 export default function Footer(props) {
 

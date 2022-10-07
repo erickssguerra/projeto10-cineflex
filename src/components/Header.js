@@ -31,5 +31,9 @@ const HeaderStyled = styled.div`
        text-shadow: 1px 3px 0 hsl(200 50% 30%);
        color: #E8833A;
        text-decoration: none;
+
+       &:hover {
+        text-shadow: none;
+       }
    }
 `
