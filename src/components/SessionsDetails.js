@@ -46,5 +46,4 @@ const SessionDetailsButton = styled.button`
         &:hover{
             filter: brightness(1.2)
         }
-   
 `

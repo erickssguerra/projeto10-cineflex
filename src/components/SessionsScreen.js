@@ -5,8 +5,6 @@ import SessionsDetails from "./SessionsDetails";
 import Footer from "./Footer"
 import axios from "axios";
 
-
-
 export default function SessionsScreen() {
     const { idFilme } = useParams();
     const [items, setItems] = useState([]);

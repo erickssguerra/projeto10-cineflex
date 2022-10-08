@@ -1,33 +1,50 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
-export default function SuccessScreen() {
+export default function SuccessScreen(props) {
+    const { objeto } = props;
+    console.log(objeto);
+
+    if (!objeto) {
+        return (
+            <SuccessScreenStyled>
+                <h2>Você não selecionou nenhum filme!</h2>
+                <ContainerBotaoAmarelo>
+                    <Link to="/"><BotaoAmarelo>Voltar pra Home</BotaoAmarelo></Link>
+                </ContainerBotaoAmarelo>
+            </SuccessScreenStyled>
+        )
+    }
+
+    const cpfEstilizado = objeto.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
+        function (regex, argumento1, argumento2, argumento3, argumento4) {
+            return argumento1 + '.' + argumento2 + '.' + argumento3 + '-' + argumento4;
+        })
+
     return (
         <SuccessScreenStyled>
             <h1>Pedido feito com sucesso!</h1>
             <h2>Filme e sessão</h2>
             <TextoStyled>
-                <p>Enola Holmes</p>
-                <p>24/06/2021 - 15:00</p>
+                <p>{objeto.titulo}</p>
+                <p>{objeto.dia} - {objeto.hora}</p>
             </TextoStyled>
 
             <h2>Ingressos</h2>
             <TextoStyled>
-                <p>Assento 15</p>
-                <p>Assento 16</p>
+                {objeto.assentos.map(a => <p>Assento {a}</p>)}
             </TextoStyled>
             <h2>Comprador</h2>
             <TextoStyled>
-                <p>Nome: João da Silva</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {objeto.nome}</p>
+                <p>CPF: {cpfEstilizado}</p>
             </TextoStyled>
             <ContainerBotaoAmarelo>
-                <BotaoAmarelo>Voltar pra Home</BotaoAmarelo>
+                <Link to="/"><BotaoAmarelo>Voltar pra Home</BotaoAmarelo></Link>
             </ContainerBotaoAmarelo>
-
 
         </SuccessScreenStyled>
     )
-
 }
 
 const SuccessScreenStyled = styled.div`
@@ -55,10 +72,7 @@ const SuccessScreenStyled = styled.div`
         color: #293845;
         margin-bottom: 6px;
     }
-
-  
 `
-
 const TextoStyled = styled.div`
     margin-bottom: 30px;
 
@@ -67,7 +81,6 @@ const TextoStyled = styled.div`
     }
 
 `
-
 const ContainerBotaoAmarelo = styled.div`
     display: flex;
     align-items: center;
@@ -82,4 +95,9 @@ const BotaoAmarelo = styled.button`
     height: 40px;
     width: 225px;
     font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+
+    }
 `

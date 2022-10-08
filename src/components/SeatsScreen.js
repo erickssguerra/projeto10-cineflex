@@ -2,17 +2,20 @@ import styled from "styled-components";
 import Footer from "./Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
+export default function SeatsScreen(props) {
 
-export default function SeatsScreen() {
+    const { setObjeto } = props
     const { idSessao } = useParams();
     const [items, setItems] = useState([]);
-
+    const [selectedSeats, setSelectedSeats] = useState([])
+    const [seatNumber, setSeatNumber] = useState([])
+    const navigate = useNavigate();
+    const [form, setForm] = useState({ ids: "", name: "", cpf: "" })
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
-
         promise.then((resposta) => {
             setItems(resposta.data)
         })
@@ -31,33 +34,106 @@ export default function SeatsScreen() {
         )
     }
 
-    console.log(items)
-    return (
-        <> <SeatsScreenStyled>
-            <h1>Selecione o(s) assento(s)</h1>
-            <ContainerAssentos>
-                {items.seats.map((seat) =>
-                    seat.isAvailable ?
-                        <AssentoLivre>{seat.name}</AssentoLivre>
-                        :
-                        <AssentoOcupado>{seat.name}</AssentoOcupado>
-                )}
-            </ContainerAssentos>
-            <ContainerLegenda>
-                <div><AssentoLivre /><p>Disponível</p></div>
-                <div><AssentoSelecionado /><p>Selecionado</p></div>
-                <div><AssentoOcupado /><p>Ocupado</p></div>
-            </ContainerLegenda>
-            <ContainerComprador>
-                <p>Nome do comprador:</p>
-                <input placeholder="Digite seu nome..." />
-                <p>CPF do comprador:</p>
-                <input placeholder="Digite seu nome..." />
-            </ContainerComprador>
-            <BotaoAmarelo>Reservar Assento(s)</BotaoAmarelo>
-        </SeatsScreenStyled>
-            <Footer titulo={items.movie.title} imagem={items.movie.posterURL} horario={items.name} />
+    function selectSeat(id, name) {
+        if (!selectedSeats.includes(id)) {
+            const selected = [...selectedSeats, id];
+            setSelectedSeats(selected);
+            const selectedNumber = [...seatNumber, name];
+            setSeatNumber(selectedNumber);
+        }
+        if (selectedSeats.includes(id)) {
+            const selected = selectedSeats.filter(s => s !== id);
+            setSelectedSeats(selected);
+            const selectedNumber = seatNumber.filter(b => b !== name);
+            setSeatNumber(selectedNumber);
+        }
+    }
 
+    function inputControl(event) {
+        setForm({
+            ...form, [event.target.name]: event.target.value
+        })
+    }
+
+    function reservar(e) {
+        console.log()
+        const data = { titulo: items.movie.title, dia: items.day.weekday, hora: items.name, assentos: seatNumber, nome: form.name, cpf: form.cpf }
+        setObjeto(data);
+
+        e.preventDefault();
+        if (selectedSeats.length === 0) {
+            alert("Selecione um assento!")
+            return
+        }
+
+        const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", { ...form, ids: selectedSeats })
+
+        promise.then(response => {
+            navigate("/sucesso/")
+        })
+        promise.catch(err => console.log(err.response.data));
+    }
+
+    console.log(selectedSeats);
+    return (
+        <>
+            <SeatsScreenStyled>
+                <h1>Selecione o(s) assento(s)</h1>
+
+                <ContainerAssentos>
+                    {items.seats.map((seat) =>
+                        seat.isAvailable ?
+                            selectedSeats.includes(seat.id) ?
+                                <AssentoSelecionado onClick={() => selectSeat(seat.id, seat.name)} key={seat.id}>
+                                    {seat.name}
+                                </AssentoSelecionado>
+                                :
+                                <AssentoLivre onClick={() => selectSeat(seat.id, seat.name)} key={seat.id}>
+                                    {seat.name}
+                                </AssentoLivre>
+
+                            :
+                            <AssentoOcupado onClick={() => alert("Assento ocupado!")} key={seat.id}>
+                                {seat.name}
+                            </AssentoOcupado>
+                    )}
+                </ContainerAssentos>
+
+                <ContainerLegenda>
+                    <div><AssentoLivre /><p>Disponível</p></div>
+                    <div><AssentoSelecionado /><p>Selecionado</p></div>
+                    <div><AssentoOcupado /><p>Ocupado</p></div>
+                </ContainerLegenda>
+
+                <ContainerComprador onSubmit={reservar}>
+                    <p>Nome do comprador:</p>
+                    <input
+                        type="text"
+                        placeholder="Digite seu nome..."
+                        onChange={inputControl}
+                        value={form.name}
+                        required
+                        name="name"
+                    />
+                    <p>CPF do comprador:</p>
+                    <input
+                        type="text"
+                        placeholder="Digite seu nome..."
+                        onChange={inputControl}
+                        value={form.cpf}
+                        pattern="\d{3}.?\d{3}.?\d{3}-?\d{2}"
+                        maxLength="11"
+                        required
+                        name="cpf"
+                    />
+                    <div>
+                        <BotaoAmarelo type="submit">Reservar Assento(s)</BotaoAmarelo>
+                    </div>
+                </ContainerComprador>
+
+            </SeatsScreenStyled>
+
+            <Footer titulo={items.movie.title} imagem={items.movie.posterURL} horario={items.name} />
         </>
     )
 }
@@ -91,21 +167,22 @@ const ContainerAssentos = styled.div`
         height: 26px;
         border-radius: 50%;
         font-size: 11px;
-        margin-bottom: 10px; 
+        margin-bottom: 10px;
+        cursor: pointer; 
     }
 
 `
 
 const AssentoLivre = styled.button`
-        
+
         border: 1px solid #808F9D;
-        background-color: #C3CFD9;
+        background-color: #C3CFD9; 
               
         
 `
 
 const AssentoSelecionado = styled.button`
-       
+    
         border: 1px solid #0E7D71;
         background-color: #1AAE9E;
 
@@ -150,7 +227,7 @@ const ContainerLegenda = styled.div`
 
 `
 
-const ContainerComprador = styled.div`
+const ContainerComprador = styled.form`
 display: flex;
 flex-direction: column;
 width: 370px;
@@ -173,9 +250,12 @@ input {
 
     &::placeholder {
         font-style: italic;
-        margin-left: 10px;
-        
     }
+}
+
+div {
+    display: flex;
+    justify-content: center;
 }
 `
 
@@ -187,4 +267,5 @@ const BotaoAmarelo = styled.button`
     height: 40px;
     width: 225px;
     font-size: 16px;
+    cursor: pointer;
 `

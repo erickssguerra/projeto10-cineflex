@@ -5,9 +5,13 @@ import SeatsScreen from "./SeatsScreen";
 import SessionsScreen from "./SessionsScreen";
 import SuccessScreen from "./SuccessScreen";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 
 export default function App() {
+
+    const [objeto, setObjeto] = useState(false)
+
 
     return (
         <div>
@@ -17,8 +21,8 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<MovieScreen />} />
                     <Route path="/sessoes/:idFilme" element={<SessionsScreen />} />
-                    <Route path="/assentos/:idSessao" element={<SeatsScreen />} />
-                    <Route path="/sucesso/" element={<SuccessScreen />} />
+                    <Route path="/assentos/:idSessao" element={<SeatsScreen setObjeto={setObjeto} />} />
+                    <Route path="/sucesso/" element={<SuccessScreen objeto={objeto} />} />
                 </Routes>
 
             </BrowserRouter>
