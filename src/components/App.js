@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function App() {
 
-    const [objeto, setObjeto] = useState(false)
+    const [purchaseDetails, setPurchaseDetails] = useState(false)
 
 
     return (
@@ -20,9 +20,9 @@ export default function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<MoviePage />} />
-                    <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
-                    <Route path="/assentos/:idSessao" element={<SeatsPage setObjeto={setObjeto} />} />
-                    <Route path="/sucesso/" element={<SuccessPage objeto={objeto} />} />
+                    <Route path="/sessoes/:idMovie" element={<SessionsPage />} />
+                    <Route path="/assentos/:idSession" element={<SeatsPage setPurchaseDetails={setPurchaseDetails} />} />
+                    <Route path="/sucesso/" element={<SuccessPage purchaseDetails={purchaseDetails} />} />
                 </Routes>
 
             </BrowserRouter>

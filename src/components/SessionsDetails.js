@@ -8,10 +8,10 @@ export default function SessionsDetails(props) {
         <SessionDetailsStyled>
             <h2>{weekday} - {date}</h2>
             <div>
-                {times.map((b) =>
-                    <Link key={b.id} to={`/assentos/${b.id}`}>
+                {times.map((time) =>
+                    <Link key={time.id} to={`/assentos/${time.id}`}>
                         <SessionDetailsButton data-identifier="hour-minute-btn" >
-                            {b.name}
+                            {time.name}
                         </SessionDetailsButton>
                     </Link>)}
             </div>

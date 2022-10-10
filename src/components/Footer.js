@@ -2,14 +2,14 @@ import styled from "styled-components"
 
 export default function Footer(props) {
 
-    const { imagem, titulo, horario } = props
+    const { poster, title, hour } = props
 
     return (
         <FooterStyled>
-            <FooterContainer ><div><img data-identifier="movie-img-preview" src={imagem} alt="filme" /></div>
+            <FooterContainer ><div><img data-identifier="movie-img-preview" src={poster} alt="filme" /></div>
                 <MovieDetailsStyled data-identifier="movie-and-session-infos-preview">
-                    <h1>{titulo}</h1>
-                    <h1>{horario}</h1>
+                    <h1>{title}</h1>
+                    <h1>{hour}</h1>
                 </MovieDetailsStyled>
             </FooterContainer>
         </FooterStyled>

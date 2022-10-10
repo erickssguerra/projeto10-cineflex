@@ -2,12 +2,12 @@ import { Link } from "react-router-dom"
 
 export default function MovieCard(props) {
 
-    const { imagem, titulo, idFilme } = props
+    const { poster, title, idMovie } = props
 
     return (
-        <Link to={`/sessoes/${idFilme}`} >
+        <Link to={`/sessoes/${idMovie}`} >
             <li>
-                <img src={imagem} alt={titulo} />
+                <img src={poster} alt={title} />
             </li>
         </Link >
     )

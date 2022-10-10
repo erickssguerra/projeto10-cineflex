@@ -2,50 +2,53 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export default function SuccessPage(props) {
-    const { objeto } = props;
-    console.log(objeto);
+    const { purchaseDetails } = props;
 
-    if (!objeto) {
+    if (!purchaseDetails) {
         return (
             <SuccessPageStyled>
-                <h2>Você não selecionou nenhum filme!</h2>
-                <ContainerBotaoAmarelo>
-                    <Link to="/"><BotaoAmarelo>Voltar pra Home</BotaoAmarelo></Link>
-                </ContainerBotaoAmarelo>
+                <h3>Você não selecionou nenhum filme!</h3>
+                <ContainerHomeButton>
+                    <Link to="/">
+                        <HomeButton data-identifier="back-to-home-btn">
+                            Voltar pra Home
+                        </HomeButton>
+                    </Link>
+                </ContainerHomeButton>
             </SuccessPageStyled>
         )
     }
 
-    const cpfEstilizado = objeto.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
-        function (regex, argumento1, argumento2, argumento3, argumento4) {
-            return argumento1 + '.' + argumento2 + '.' + argumento3 + '-' + argumento4;
+    const cpfRegex = purchaseDetails.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,
+        function (regex, string1, string2, string3, string4) {
+            return string1 + '.' + string2 + '.' + string3 + '-' + string4;
         })
 
     return (
         <SuccessPageStyled>
             <h1>Pedido feito com sucesso!</h1>
             <h2>Filme e sessão</h2>
-            <TextoStyled data-identifier="movie-session-infos-reserve-finished">
-                <p>{objeto.titulo}</p>
-                <p>{objeto.dia} - {objeto.hora}</p>
-            </TextoStyled>
+            <PurchaseDetailsStyled data-identifier="movie-session-infos-reserve-finished">
+                <p>{purchaseDetails.movieTitle}</p>
+                <p>{purchaseDetails.day} - {purchaseDetails.time}</p>
+            </PurchaseDetailsStyled>
 
             <h2>Ingressos</h2>
-            <TextoStyled data-identifier="seat-infos-reserve-finished">
-                {objeto.assentos.map((a, i) => <p key={i}>Assento {a}</p>)}
-            </TextoStyled>
+            <PurchaseDetailsStyled data-identifier="seat-infos-reserve-finished">
+                {purchaseDetails.seats.map((a, i) => <p key={i}>Assento {a}</p>)}
+            </PurchaseDetailsStyled>
             <h2>Comprador</h2>
-            <TextoStyled data-identifier="buyer-infos-reserve-finished">
-                <p>Nome: {objeto.nome}</p>
-                <p>CPF: {cpfEstilizado}</p>
-            </TextoStyled>
-            <ContainerBotaoAmarelo>
+            <PurchaseDetailsStyled data-identifier="buyer-infos-reserve-finished">
+                <p>Nome: {purchaseDetails.buyer}</p>
+                <p>CPF: {cpfRegex}</p>
+            </PurchaseDetailsStyled>
+            <ContainerHomeButton>
                 <Link to="/">
-                    <BotaoAmarelo data-identifier="back-to-home-btn" >
+                    <HomeButton data-identifier="back-to-home-btn" >
                         Voltar pra Home
-                    </BotaoAmarelo>
+                    </HomeButton>
                 </Link>
-            </ContainerBotaoAmarelo>
+            </ContainerHomeButton>
 
         </SuccessPageStyled>
     )
@@ -54,7 +57,9 @@ export default function SuccessPage(props) {
 const SuccessPageStyled = styled.div`
     padding-top: 80px;
     padding-bottom: 110px;
-    width: 375px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 320px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -63,7 +68,6 @@ const SuccessPageStyled = styled.div`
         font-size: 18px;
         line-height: 22px;
         margin: 15px auto;
-        color: #293845;
         width: 120px;
         color: #247A6B;
         font-weight: 700;
@@ -76,8 +80,18 @@ const SuccessPageStyled = styled.div`
         color: #293845;
         margin-bottom: 6px;
     }
+
+    h3 {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 15px auto;
+        color: #293845;
+        width: 120px;
+        font-weight: 700;
+        text-align: center;
+    }
 `
-const TextoStyled = styled.div`
+const PurchaseDetailsStyled = styled.div`
     margin-bottom: 30px;
 
     p {
@@ -85,13 +99,13 @@ const TextoStyled = styled.div`
     }
 
 `
-const ContainerBotaoAmarelo = styled.div`
+const ContainerHomeButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 20px auto;
 `
-const BotaoAmarelo = styled.button`
+const HomeButton = styled.button`
     background-color: #E8833A;
     color: white;
     border-radius: 3px;
@@ -102,6 +116,6 @@ const BotaoAmarelo = styled.button`
     cursor: pointer;
 
     &:hover {
-
+        filter: brightness(1.1)
     }
 `

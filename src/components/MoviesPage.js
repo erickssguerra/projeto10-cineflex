@@ -10,18 +10,22 @@ export default function MoviePage() {
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
 
-        promise.then((resposta) => {
-            setItems(resposta.data)
+        promise.then((response) => {
+            setItems(response.data)
         })
 
-        promise.catch(erro => {
-            console.log(erro.response.data);
+        promise.catch(err => {
+            console.log(err.response.data);
         })
 
     }, []);
 
     if (items.length === 0 || items === undefined || items === null) {
-        return (<MoviePageStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." /></MoviePageStyled>)
+        return (
+            <MoviePageStyled>
+                <img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." />
+            </MoviePageStyled>
+        )
     }
 
     return (
@@ -31,9 +35,9 @@ export default function MoviePage() {
                 {items.map((item) => < MovieCard
                     data-identifier="movie-outdoor"
                     key={item.id}
-                    idFilme={item.id}
-                    imagem={item.posterURL}
-                    titulo={item.title}
+                    idMovie={item.id}
+                    poster={item.posterURL}
+                    title={item.title}
                 />)}
             </ul>
         </MoviePageStyled>

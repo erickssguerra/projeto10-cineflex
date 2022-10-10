@@ -6,21 +6,21 @@ import Footer from "./Footer"
 import axios from "axios";
 
 export default function SessionsPage() {
-    const { idFilme } = useParams();
+    const { idMovie } = useParams();
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`);
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idMovie}/showtimes`);
 
-        promise.then((resposta) => {
-            setItems(resposta.data)
+        promise.then((response) => {
+            setItems(response.data)
         })
 
-        promise.catch(erro => {
-            console.log(erro.response.data);
+        promise.catch(err => {
+            console.log(err.response.data);
         })
 
-    }, [idFilme]);
+    }, [idMovie]);
 
     if (items.length === 0 || items === undefined || items === null) {
         return (
@@ -31,18 +31,19 @@ export default function SessionsPage() {
     }
 
     return (
-        <><SessionsPageStyled>
-            <h1>Selecione o horário</h1>
-            {items.days.map((item) =>
-                <SessionsDetails
-                    data-identifier="session-date"
-                    key={item.id}
-                    weekday={item.weekday}
-                    date={item.date}
-                    times={item.showtimes}
-                />)}
-        </SessionsPageStyled>
-            <Footer titulo={items.title} imagem={items.posterURL} />
+        <>
+            <SessionsPageStyled>
+                <h1>Selecione o horário</h1>
+                {items.days.map((item) =>
+                    <SessionsDetails
+                        data-identifier="session-date"
+                        key={item.id}
+                        weekday={item.weekday}
+                        date={item.date}
+                        times={item.showtimes}
+                    />)}
+            </SessionsPageStyled>
+            <Footer title={items.title} poster={items.posterURL} />
         </>
     )
 }

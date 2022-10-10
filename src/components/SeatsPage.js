@@ -6,25 +6,25 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function SeatsPage(props) {
 
-    const { setObjeto } = props
-    const { idSessao } = useParams();
+    const { setPurchaseDetails } = props
+    const { idSession } = useParams();
     const [items, setItems] = useState([]);
     const [selectedSeats, setSelectedSeats] = useState([])
-    const [seatNumber, setSeatNumber] = useState([])
+    const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
     const navigate = useNavigate();
     const [form, setForm] = useState({ ids: "", name: "", cpf: "" })
 
     useEffect(() => {
-        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
-        promise.then((resposta) => {
-            setItems(resposta.data)
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSession}/seats`);
+        promise.then((response) => {
+            setItems(response.data)
         })
 
-        promise.catch(erro => {
-            console.log(erro.response.data);
+        promise.catch(err => {
+            console.log(err.response.data);
         })
 
-    }, [idSessao]);
+    }, [idSession]);
 
     if (items.length === 0 || items === undefined || items === null) {
         return (
@@ -38,14 +38,14 @@ export default function SeatsPage(props) {
         if (!selectedSeats.includes(id)) {
             const selected = [...selectedSeats, id];
             setSelectedSeats(selected);
-            const selectedNumber = [...seatNumber, name];
-            setSeatNumber(selectedNumber);
+            const selectedNumbers = [...selectedSeatNumbers, name];
+            setSelectedSeatNumbers(selectedNumbers);
         }
         if (selectedSeats.includes(id)) {
             const selected = selectedSeats.filter(s => s !== id);
             setSelectedSeats(selected);
-            const selectedNumber = seatNumber.filter(b => b !== name);
-            setSeatNumber(selectedNumber);
+            const selectedNumbers = selectedSeatNumbers.filter(b => b !== name);
+            setSelectedSeatNumbers(selectedNumbers);
         }
     }
 
@@ -55,10 +55,16 @@ export default function SeatsPage(props) {
         })
     }
 
-    function reservar(e) {
-        console.log()
-        const data = { titulo: items.movie.title, dia: items.day.weekday, hora: items.name, assentos: seatNumber, nome: form.name, cpf: form.cpf }
-        setObjeto(data);
+    function bookSeats(e) {
+        const data = {
+            movieTitle: items.movie.title,
+            day: items.day.date,
+            time: items.name,
+            seats: selectedSeatNumbers,
+            buyer: form.name,
+            cpf: form.cpf
+        }
+        setPurchaseDetails(data);
 
         e.preventDefault();
         if (selectedSeats.length === 0) {
@@ -68,44 +74,42 @@ export default function SeatsPage(props) {
 
         const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", { ...form, ids: selectedSeats })
 
-        promise.then(response => {
+        promise.then(() => {
             navigate("/sucesso/")
         })
         promise.catch(err => console.log(err.response.data));
     }
 
-    console.log(selectedSeats);
     return (
         <>
             <SeatsPageStyled>
                 <h1>Selecione o(s) assento(s)</h1>
 
-                <ContainerAssentos data-identifier="seat">
+                <ContainerSeats data-identifier="seat">
                     {items.seats.map((seat) =>
                         seat.isAvailable ?
                             selectedSeats.includes(seat.id) ?
-                                <AssentoSelecionado onClick={() => selectSeat(seat.id, seat.name)} key={seat.id}>
+                                <SelectedSeat onClick={() => selectSeat(seat.id, seat.name)} key={seat.id}>
                                     {seat.name}
-                                </AssentoSelecionado>
+                                </SelectedSeat>
                                 :
-                                <AssentoLivre onClick={() => selectSeat(seat.id, seat.name)} key={seat.id}>
+                                <AvailableSeat onClick={() => selectSeat(seat.id, seat.name)} key={seat.id}>
                                     {seat.name}
-                                </AssentoLivre>
-
+                                </AvailableSeat>
                             :
-                            <AssentoOcupado onClick={() => alert("Assento ocupado!")} key={seat.id}>
+                            <UnavailableSeat onClick={() => alert("Assento ocupado!")} key={seat.id}>
                                 {seat.name}
-                            </AssentoOcupado>
+                            </UnavailableSeat>
                     )}
-                </ContainerAssentos>
+                </ContainerSeats>
 
-                <ContainerLegenda>
-                    <div><AssentoLivre data-identifier="seat-available-subtitle" /><p>Disponível</p></div>
-                    <div><AssentoSelecionado data-identifier="seat-selected-subtitle" /><p>Selecionado</p></div>
-                    <div><AssentoOcupado data-identifier="seat-unavailable-subtitle" /><p>Ocupado</p></div>
-                </ContainerLegenda>
+                <ContainerLegend>
+                    <div><AvailableSeat data-identifier="seat-available-subtitle" /><p>Disponível</p></div>
+                    <div><SelectedSeat data-identifier="seat-selected-subtitle" /><p>Selecionado</p></div>
+                    <div><UnavailableSeat data-identifier="seat-unavailable-subtitle" /><p>Ocupado</p></div>
+                </ContainerLegend>
 
-                <ContainerComprador onSubmit={reservar}>
+                <ContainerBuyer onSubmit={bookSeats}>
                     <p>Nome do comprador:</p>
                     <input
                         type="text"
@@ -119,7 +123,7 @@ export default function SeatsPage(props) {
                     <p>CPF do comprador:</p>
                     <input
                         type="text"
-                        placeholder="Digite seu nome..."
+                        placeholder="Digite seu CPF..."
                         onChange={inputControl}
                         value={form.cpf}
                         pattern="\d{3}.?\d{3}.?\d{3}-?\d{2}"
@@ -129,13 +133,13 @@ export default function SeatsPage(props) {
                         data-identifier="buyer-cpf-input"
                     />
                     <div>
-                        <BotaoAmarelo data-identifier="reservation-btn" type="submit">Reservar Assento(s)</BotaoAmarelo>
+                        <ReservationButton data-identifier="reservation-btn" type="submit">Reservar Assento(s)</ReservationButton>
                     </div>
-                </ContainerComprador>
+                </ContainerBuyer>
 
             </SeatsPageStyled>
 
-            <Footer titulo={items.movie.title} imagem={items.movie.posterURL} horario={items.name} />
+            <Footer title={items.movie.title} poster={items.movie.posterURL} hour={items.name} />
         </>
     )
 }
@@ -156,7 +160,7 @@ const SeatsPageStyled = styled.div`
     }
 `
 
-const ContainerAssentos = styled.div`
+const ContainerSeats = styled.div`
     display: flex;
     gap: 10px;
     width: 370px;
@@ -175,30 +179,22 @@ const ContainerAssentos = styled.div`
 
 `
 
-const AssentoLivre = styled.button`
-
+const AvailableSeat = styled.button`
         border: 1px solid #808F9D;
         background-color: #C3CFD9; 
-              
-        
 `
 
-const AssentoSelecionado = styled.button`
-    
+const SelectedSeat = styled.button`
         border: 1px solid #0E7D71;
         background-color: #1AAE9E;
-
 `
 
-const AssentoOcupado = styled.button`
-        
+const UnavailableSeat = styled.button`
         border: 1px solid #F7C52B;
         background-color: #FBE192;
-      
-
 `
 
-const ContainerLegenda = styled.div`
+const ContainerLegend = styled.div`
     width: 100%;
     margin-top: 30px;
     align-items: center;
@@ -223,13 +219,10 @@ const ContainerLegenda = styled.div`
         height: 23px;
         border-radius: 50%;
         font-size: 11px;
-        
     }
-
-
 `
 
-const ContainerComprador = styled.form`
+const ContainerBuyer = styled.form`
 display: flex;
 flex-direction: column;
 width: 370px;
@@ -261,7 +254,7 @@ div {
 }
 `
 
-const BotaoAmarelo = styled.button`
+const ReservationButton = styled.button`
     background-color: #E8833A;
     color: white;
     border-radius: 3px;
