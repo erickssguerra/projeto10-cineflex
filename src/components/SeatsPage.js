@@ -263,4 +263,8 @@ const ReservationButton = styled.button`
     width: 225px;
     font-size: 16px;
     cursor: pointer;
+
+    &:hover {
+        filter: brightness(1.2)
+    }
 `

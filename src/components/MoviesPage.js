@@ -91,7 +91,11 @@ const MoviePageStyled = styled.div`
 
       &:hover {
             transition: all .5s;
-            filter: brightness(1.2)
+            filter: brightness(1.2);
+        }
+
+      &:active{
+            transform: scale(1.1);
         }
     }
 

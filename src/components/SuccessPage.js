@@ -116,6 +116,6 @@ const HomeButton = styled.button`
     cursor: pointer;
 
     &:hover {
-        filter: brightness(1.1)
+        filter: brightness(1.2);
     }
 `
