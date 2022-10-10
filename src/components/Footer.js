@@ -6,8 +6,8 @@ export default function Footer(props) {
 
     return (
         <FooterStyled>
-            <FooterContainer><div><img src={imagem} alt="filme" /></div>
-                <MovieDetailsStyled>
+            <FooterContainer ><div><img data-identifier="movie-img-preview" src={imagem} alt="filme" /></div>
+                <MovieDetailsStyled data-identifier="movie-and-session-infos-preview">
                     <h1>{titulo}</h1>
                     <h1>{horario}</h1>
                 </MovieDetailsStyled>

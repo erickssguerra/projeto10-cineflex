@@ -1,9 +1,9 @@
 import GlobalStyle from "../assets/GlobalStyle";
 import Header from "./Header";
-import MovieScreen from "./MoviesScreen";
-import SeatsScreen from "./SeatsScreen";
-import SessionsScreen from "./SessionsScreen";
-import SuccessScreen from "./SuccessScreen";
+import MoviePage from "./MoviesPage";
+import SeatsPage from "./SeatsPage";
+import SessionsPage from "./SessionsPage";
+import SuccessPage from "./SuccessPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
@@ -19,10 +19,10 @@ export default function App() {
                 <GlobalStyle />
                 <Header />
                 <Routes>
-                    <Route path="/" element={<MovieScreen />} />
-                    <Route path="/sessoes/:idFilme" element={<SessionsScreen />} />
-                    <Route path="/assentos/:idSessao" element={<SeatsScreen setObjeto={setObjeto} />} />
-                    <Route path="/sucesso/" element={<SuccessScreen objeto={objeto} />} />
+                    <Route path="/" element={<MoviePage />} />
+                    <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
+                    <Route path="/assentos/:idSessao" element={<SeatsPage setObjeto={setObjeto} />} />
+                    <Route path="/sucesso/" element={<SuccessPage objeto={objeto} />} />
                 </Routes>
 
             </BrowserRouter>

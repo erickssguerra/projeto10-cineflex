@@ -10,7 +10,7 @@ export default function SessionsDetails(props) {
             <div>
                 {times.map((b) =>
                     <Link key={b.id} to={`/assentos/${b.id}`}>
-                        <SessionDetailsButton >
+                        <SessionDetailsButton data-identifier="hour-minute-btn" >
                             {b.name}
                         </SessionDetailsButton>
                     </Link>)}

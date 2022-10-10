@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function SeatsScreen(props) {
+export default function SeatsPage(props) {
 
     const { setObjeto } = props
     const { idSessao } = useParams();
@@ -28,9 +28,9 @@ export default function SeatsScreen(props) {
 
     if (items.length === 0 || items === undefined || items === null) {
         return (
-            <SeatsScreenStyled>
+            <SeatsPageStyled>
                 <img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." />
-            </SeatsScreenStyled>
+            </SeatsPageStyled>
         )
     }
 
@@ -77,10 +77,10 @@ export default function SeatsScreen(props) {
     console.log(selectedSeats);
     return (
         <>
-            <SeatsScreenStyled>
+            <SeatsPageStyled>
                 <h1>Selecione o(s) assento(s)</h1>
 
-                <ContainerAssentos>
+                <ContainerAssentos data-identifier="seat">
                     {items.seats.map((seat) =>
                         seat.isAvailable ?
                             selectedSeats.includes(seat.id) ?
@@ -100,9 +100,9 @@ export default function SeatsScreen(props) {
                 </ContainerAssentos>
 
                 <ContainerLegenda>
-                    <div><AssentoLivre /><p>Disponível</p></div>
-                    <div><AssentoSelecionado /><p>Selecionado</p></div>
-                    <div><AssentoOcupado /><p>Ocupado</p></div>
+                    <div><AssentoLivre data-identifier="seat-available-subtitle" /><p>Disponível</p></div>
+                    <div><AssentoSelecionado data-identifier="seat-selected-subtitle" /><p>Selecionado</p></div>
+                    <div><AssentoOcupado data-identifier="seat-unavailable-subtitle" /><p>Ocupado</p></div>
                 </ContainerLegenda>
 
                 <ContainerComprador onSubmit={reservar}>
@@ -114,6 +114,7 @@ export default function SeatsScreen(props) {
                         value={form.name}
                         required
                         name="name"
+                        data-identifier="buyer-name-input"
                     />
                     <p>CPF do comprador:</p>
                     <input
@@ -125,20 +126,21 @@ export default function SeatsScreen(props) {
                         maxLength="11"
                         required
                         name="cpf"
+                        data-identifier="buyer-cpf-input"
                     />
                     <div>
-                        <BotaoAmarelo type="submit">Reservar Assento(s)</BotaoAmarelo>
+                        <BotaoAmarelo data-identifier="reservation-btn" type="submit">Reservar Assento(s)</BotaoAmarelo>
                     </div>
                 </ContainerComprador>
 
-            </SeatsScreenStyled>
+            </SeatsPageStyled>
 
             <Footer titulo={items.movie.title} imagem={items.movie.posterURL} horario={items.name} />
         </>
     )
 }
 
-const SeatsScreenStyled = styled.div`
+const SeatsPageStyled = styled.div`
     
     padding-top: 80px;
     padding-bottom: 110px;

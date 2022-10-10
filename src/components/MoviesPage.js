@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 
 
-export default function MovieScreen() {
+export default function MoviePage() {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
@@ -21,25 +21,26 @@ export default function MovieScreen() {
     }, []);
 
     if (items.length === 0 || items === undefined || items === null) {
-        return (<MovieScreenStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." /></MovieScreenStyled>)
+        return (<MoviePageStyled><img src="http://www.sitiosaocarlos.com.br/imgsite/loading.gif" alt="Carregando..." /></MoviePageStyled>)
     }
 
     return (
-        <MovieScreenStyled>
+        <MoviePageStyled>
             <h1>Selecione o filme</h1>
             <ul>
                 {items.map((item) => < MovieCard
+                    data-identifier="movie-outdoor"
                     key={item.id}
                     idFilme={item.id}
                     imagem={item.posterURL}
                     titulo={item.title}
                 />)}
             </ul>
-        </MovieScreenStyled>
+        </MoviePageStyled>
     )
 }
 
-const MovieScreenStyled = styled.div`
+const MoviePageStyled = styled.div`
     
     padding-top: 80px;
     padding-bottom: 20px;

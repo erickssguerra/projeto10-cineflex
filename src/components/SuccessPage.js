@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
-export default function SuccessScreen(props) {
+export default function SuccessPage(props) {
     const { objeto } = props;
     console.log(objeto);
 
     if (!objeto) {
         return (
-            <SuccessScreenStyled>
+            <SuccessPageStyled>
                 <h2>Você não selecionou nenhum filme!</h2>
                 <ContainerBotaoAmarelo>
                     <Link to="/"><BotaoAmarelo>Voltar pra Home</BotaoAmarelo></Link>
                 </ContainerBotaoAmarelo>
-            </SuccessScreenStyled>
+            </SuccessPageStyled>
         )
     }
 
@@ -22,32 +22,36 @@ export default function SuccessScreen(props) {
         })
 
     return (
-        <SuccessScreenStyled>
+        <SuccessPageStyled>
             <h1>Pedido feito com sucesso!</h1>
             <h2>Filme e sessão</h2>
-            <TextoStyled>
+            <TextoStyled data-identifier="movie-session-infos-reserve-finished">
                 <p>{objeto.titulo}</p>
                 <p>{objeto.dia} - {objeto.hora}</p>
             </TextoStyled>
 
             <h2>Ingressos</h2>
-            <TextoStyled>
-                {objeto.assentos.map(a => <p>Assento {a}</p>)}
+            <TextoStyled data-identifier="seat-infos-reserve-finished">
+                {objeto.assentos.map((a, i) => <p key={i}>Assento {a}</p>)}
             </TextoStyled>
             <h2>Comprador</h2>
-            <TextoStyled>
+            <TextoStyled data-identifier="buyer-infos-reserve-finished">
                 <p>Nome: {objeto.nome}</p>
                 <p>CPF: {cpfEstilizado}</p>
             </TextoStyled>
             <ContainerBotaoAmarelo>
-                <Link to="/"><BotaoAmarelo>Voltar pra Home</BotaoAmarelo></Link>
+                <Link to="/">
+                    <BotaoAmarelo data-identifier="back-to-home-btn" >
+                        Voltar pra Home
+                    </BotaoAmarelo>
+                </Link>
             </ContainerBotaoAmarelo>
 
-        </SuccessScreenStyled>
+        </SuccessPageStyled>
     )
 }
 
-const SuccessScreenStyled = styled.div`
+const SuccessPageStyled = styled.div`
     padding-top: 80px;
     padding-bottom: 110px;
     width: 375px;
