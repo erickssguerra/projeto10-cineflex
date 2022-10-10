@@ -160,7 +160,7 @@ const SeatsPageStyled = styled.div`
     }
 `
 
-const ContainerSeats = styled.div`
+const ContainerSeats = styled.ul`
     display: flex;
     gap: 10px;
     width: 370px;
@@ -168,28 +168,31 @@ const ContainerSeats = styled.div`
     flex-wrap: wrap;
     justify-content: center;
 
-    button {
+    li {
         width: 26px;
         height: 26px;
         border-radius: 50%;
         font-size: 11px;
         margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer; 
     }
 
 `
 
-const AvailableSeat = styled.button`
+const AvailableSeat = styled.li`
         border: 1px solid #808F9D;
         background-color: #C3CFD9; 
 `
 
-const SelectedSeat = styled.button`
+const SelectedSeat = styled.li`
         border: 1px solid #0E7D71;
         background-color: #1AAE9E;
 `
 
-const UnavailableSeat = styled.button`
+const UnavailableSeat = styled.li`
         border: 1px solid #F7C52B;
         background-color: #FBE192;
 `
@@ -214,11 +217,14 @@ const ContainerLegend = styled.div`
         margin-top: 3px;
     }
 
-    button{
+    li{
         width: 23px;
         height: 23px;
         border-radius: 50%;
         font-size: 11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 `
 
